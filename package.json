@@ -1,0 +1,13 @@
+{
+  "name": "patch",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "electron": "^44.7.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
