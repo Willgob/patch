@@ -1,32 +1,19 @@
-const { app, BrowserWindow } = require('electron/main')
-const path = require('path')
+const { app} = require('electron');
+const fs = require('fs');
+const path = require('path');
 
-const createWindow = () => {
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
-    }
-  })
+const ASAR = '/usr/lib/slack/resources/app.asar';
 
-  // win.loadFile('index.html')
-  win.loadURL('https://example.com')
-  win.webContents.openDevTools()
-}
+const pkg = JSON.parse(fs.readFileSync(path.join(ASAR, 'package.json'), 'utf8'));
+console.log('[mod] Slack main entry:', pkg.main);
 
-app.whenReady().then(() => {
-  createWindow()
+app.setPath('userData', path.join(app.getPath('appData'), 'slack-mod'))
 
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow()
-    }
+app.on('session-created', (session) => {
+  session.registerPreloadScript({
+    type: 'frame',
+    filePath: path.join(__dirname, 'preload.js'),
   })
 })
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
+require(path.join(ASAR, pkg.main))

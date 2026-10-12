@@ -1,9 +1,10 @@
-console.log('[preload] running')
+const { webFrame } = require('electron')
 
-function inject() {
-    const style = document.createElement('style')
-    style.textContent = 'body { background: #111 !important; color: #eee !important; }'
-    document.head.appendChild(style)
-}
+console.log('[mod] preload attached to Slack')
 
-window.addEventListener('DOMContentLoaded', inject)
+webFrame.insertCSS('body { background: red !important }')
+
+window.addEventListener('DOMContentLoaded', () => {
+    const el = document.querySelector('p-ssb_landing_header')
+    if (el) el.textContent = 'boo'
+})
