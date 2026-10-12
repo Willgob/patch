@@ -1,11 +1,11 @@
 {
   "name": "patch",
   "version": "0.0.1",
-  "description" : "A custom slack mod",
-  "main" : "src/main.js",
-  "scripts" :{
-    "start": "electron .",
-    "test" : "echo \"Error: no test specified\" && exit 1"
+  "description": "A custom slack mod",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electronmon .",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "William",
   "license": "MIT",
@@ -13,7 +13,8 @@
   "private": true,
   "devDependencies": {
     "@types/bun": "latest",
-    "electron": "^44.7.0"
+    "electron": "^44.7.0",
+    "electronmon": "^2.0.4"
   },
   "peerDependencies": {
     "typescript": "^5"
