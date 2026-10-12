@@ -1,5 +1,13 @@
 {
   "name": "patch",
+  "version": "0.0.1",
+  "description" : "A custom slack mod",
+  "main" : "main.js",
+  "scripts" :{
+    "test" : "echo \"Error: no test specified\" && exit 1",
+  },
+  "author": "William",
+  "license": "MIT",
   "module": "index.ts",
   "type": "module",
   "private": true,
