@@ -11,9 +11,9 @@ try {
 
 window.addEventListener('DOMContentLoaded', () => {
 
-    const stype = document.createElement('style')
-    stype.textContent= 'body { background: blue !important}'
-    document.head.appendChild(stype)
+    const style = document.createElement('style')
+    style.textContent= 'body { background: blue !important}'
+    document.head.appendChild(style)
 
 
     const text = 'boo'
