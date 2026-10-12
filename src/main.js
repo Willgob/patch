@@ -4,10 +4,15 @@ const path = require('path')
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 800,
-    height: 600
+    height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js')
+    }
   })
 
-  win.loadFile('index.html')
+  // win.loadFile('index.html')
+  win.loadURL('https://example.com')
+  win.webContents.openDevTools()
 }
 
 app.whenReady().then(() => {
