@@ -1,32 +1,24 @@
-const { webFrame } = require('electron')
+const { webFrame, ipcRenderer } = require('electron')
 
 console.log('[mod] preload attached to Slack')
 
-try {
-    require('fs')
-    console.log('[mod] fs works :3')
-} catch (e) {
-    console.log('[mod] fs blocked:', e.message)
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-
-    const style = document.createElement('style')
-    style.textContent= 'body { background: blue !important}'
-    document.head.appendChild(style)
+const css = ipcRenderer.sendSync('mod:get-css')
+webFrame.insertCSS(css)
 
 
-    const text = 'boo'
+// window.addEventListener('DOMContentLoaded', () => {
 
-    function apply() {
-        const el = document.querySelector('.p-ssb_landing__header')
-        if (el && el.textContent !== text) el.textContent = text
-    }
+//     const text = 'boo'
 
-    new MutationObserver(apply).observe(document.documentElement, {
-        childList: true,
-        subtree: true,
-        characterData: true
-    })
-    apply()
-})
+//     function apply() {
+//         const el = document.querySelector('.p-ssb_landing__header')
+//         if (el && el.textContent !== text) el.textContent = text
+//     }
+
+//     new MutationObserver(apply).observe(document.documentElement, {
+//         childList: true,
+//         subtree: true,
+//         characterData: true
+//     })
+//     apply()
+// })
