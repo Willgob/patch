@@ -1,3 +1,10 @@
 body {
     background: green !important;
 }
+
+body.sk-client-theme--dark {
+  --p-team_sidebar__nav-bg: red;
+  --dt_color-base-pry: red;
+  --dt_color-base-sec: red;
+  --dt_color-base-ter: red;
+}

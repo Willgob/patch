@@ -20,4 +20,8 @@ app.on('session-created', (session) => {
   })
 })
 
-require(path.join(ASAR, pkg.main))
+if (!app.requestSingleInstanceLock()) {
+  app.quit()
+} else {
+  require(path.join(ASAR, pkg.main))
+}
