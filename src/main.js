@@ -1,10 +1,15 @@
 const { app, ipcMain} = require('electron');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 
 ipcMain.on('mod:get-css', (event) => {
   event.returnValue = fs.readFileSync(path.join(__dirname, 'theme.css'), 'utf8');
 })
+
+function findAsar() {
+  
+}
 
 // const ASAR = '/usr/lib/slack/resources/app.asar';
 const ASAR = '/Applications/Slack.app/Contents/Resources/app.asar';
