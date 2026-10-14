@@ -6,7 +6,8 @@ ipcMain.on('mod:get-css', (event) => {
   event.returnValue = fs.readFileSync(path.join(__dirname, 'theme.css'), 'utf8');
 })
 
-const ASAR = '/usr/lib/slack/resources/app.asar';
+// const ASAR = '/usr/lib/slack/resources/app.asar';
+const ASAR = '/Applications/Slack.app/Contents/Resources/app.asar';
 
 const pkg = JSON.parse(fs.readFileSync(path.join(ASAR, 'package.json'), 'utf8'));
 console.log('[mod] Slack main entry:', pkg.main);
