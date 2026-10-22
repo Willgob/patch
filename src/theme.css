@@ -1,3 +1,7 @@
+/* .c-message__sender_button[data-hc-unverified="true"] {
+    color: red !important;
+} */
+
 .c-message__sender_button {
     color: red !important;
 }
