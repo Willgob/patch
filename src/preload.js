@@ -8,6 +8,17 @@ async function isVerified(slackId) {
 
 function getSlackId(button) {
 	const isSlackUserId = (value) => typeof value === 'string' && /^[UW][A-Z0-9]{6,}$/.test(value)
+	const isAppSender = (element) => {
+		for (let depth = 0; element && depth < 5; depth += 1) {
+			if (element.querySelector('[data-bot-id], [data-app-id], [aria-label*="app" i]')) return true
+			const headerText = element.textContent?.trim() ?? ''
+			if (/\bAPP\b/.test(headerText) && headerText.length < 160) return true
+			element = element.parentElement
+		}
+		return false
+	}
+
+	if (isAppSender(button)) return null
 
 	let element = button
 	for (let depth = 0; element && depth < 8; depth += 1) {
@@ -22,7 +33,7 @@ function getSlackId(button) {
 	const hasBotMarker = (value, depth = 0) => {
 		if (!value || typeof value !== 'object' || depth > 4 || visited.has(value)) return false
 		for (const [key, child] of Object.entries(value)) {
-			if ((key === 'botId' || key === 'bot_id' || key === 'isBot' || key === 'is_bot') && child) return true
+			if ((key === 'botId' || key === 'bot_id' || key === 'isBot' || key === 'is_bot' || key === 'appId' || key === 'app_id' || key === 'isApp' || key === 'is_app' || key === 'bot' || key === 'app') && child) return true
 			if (hasBotMarker(child, depth + 1)) return true
 		}
 		return false
