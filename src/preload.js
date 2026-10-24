@@ -12,18 +12,28 @@ function getSlackId(button) {
 	let element = button
 	for (let depth = 0; element && depth < 8; depth += 1) {
 		for (const attribute of element.attributes) {
+			if (/bot/i.test(attribute.name)) return null
 			if (isSlackUserId(attribute.value)) return attribute.value
 		}
 		element = element.parentElement
 	}
 
 	const visited = new WeakSet()
+	const hasBotMarker = (value, depth = 0) => {
+		if (!value || typeof value !== 'object' || depth > 4 || visited.has(value)) return false
+		for (const [key, child] of Object.entries(value)) {
+			if ((key === 'botId' || key === 'bot_id' || key === 'isBot' || key === 'is_bot') && child) return true
+			if (hasBotMarker(child, depth + 1)) return true
+		}
+		return false
+	}
+
 	const findId = (value, depth = 0) => {
 		if (!value || typeof value !== 'object' || depth > 6 || visited.has(value)) return null
 		visited.add(value)
 
 		for (const [key, child] of Object.entries(value)) {
-			if (/(user|member|sender|author|bot).*id|id.*(user|member|sender|author|bot)/i.test(key) && isSlackUserId(child)) {
+			if (/(user|member|sender|author).*id|id.*(user|member|sender|author)/i.test(key) && isSlackUserId(child)) {
 				return child
 			}
 		}
@@ -39,7 +49,9 @@ function getSlackId(button) {
 		if (!key.startsWith('__reactFiber$') && !key.startsWith('__reactProps$')) continue
 		let value = button[key]
 		for (let depth = 0; value && depth < 14; depth += 1) {
-			const slackId = findId(value.memoizedProps ?? value.pendingProps ?? value)
+			const props = value.memoizedProps ?? value.pendingProps ?? value
+			if (hasBotMarker(props)) return null
+			const slackId = findId(props)
 			if (slackId) return slackId
 			value = value.return
 		}
