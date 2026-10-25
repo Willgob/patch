@@ -1,7 +1,0 @@
-.c-message__sender_button {
-    color: blue !important;
-}
-
-.c-message__sender_button[data-hc-unverified="true"] {
-    color: red !important;
-}
